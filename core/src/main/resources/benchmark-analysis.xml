@@ -12,11 +12,17 @@
 
    <!-- List of configurations of the services -->
    <configurations>
-      <config name="Infinispan 6.0 - distributed">
-         <setup plugin="infinispan60">
-            <embedded xmlns="urn:radargun:plugins:infinispan60:3.0" file="dist-sync.xml" />
-         </setup>
-      </config>
+       <!-- Note that Coherence is not compiled by default -->
+       <config name="Coherence 12.x">
+           <setup plugin="coherence12">
+               <coherence xmlns="urn:radargun:plugins:coherence12:3.0" file="dist.xml"/>
+           </setup>
+       </config>
+       <config name="Hazelcast 3">
+           <setup plugin="hazelcast3">
+               <hazelcast xmlns="urn:radargun:plugins:hazelcast3:3.0" file="dist-sync.xml"/>
+           </setup>
+       </config>
    </configurations>
 
    <scenario>

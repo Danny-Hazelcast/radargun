@@ -10,15 +10,12 @@
     </group>
 
     <network>
-        <port auto-increment="true">5701</port>
-        <outbound-ports>
-            <ports>0</ports>
-        </outbound-ports>
+        <port port-count="200" auto-increment="true">5701</port>
         <join>
-            <multicast enabled="true">
-                <multicast-group>224.0.2.128</multicast-group>
-                <multicast-port>54327</multicast-port>
-            </multicast>
+            <multicast enabled="false"/>
+            <tcp-ip enabled="true">
+                <!--MEMBERS-->
+            </tcp-ip>
         </join>
     </network>
 

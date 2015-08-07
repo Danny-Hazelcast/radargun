@@ -9,11 +9,19 @@
    </clusters>
 
    <configurations>
-      <config name="DistTxShared">
-         <setup plugin="infinispan60">
-            <default xmlns="urn:radargun:plugins:infinispan60:3.0" file="query.xml" cache="dist_tx_shared"/>
-         </setup>
-      </config>
+
+       <!-- Note that Coherence is not compiled by default -->
+       <config name="DistTxShared Coherence 12.x">
+           <setup plugin="coherence12">
+               <coherence xmlns="urn:radargun:plugins:coherence12:3.0" file="dist-tx.xml" cache="dist_tx_shared"/>
+           </setup>
+       </config>
+       <config name="DistTxShared (Hazelcast 3.4.x)">
+           <setup plugin="hazelcast3">
+               <hazelcast xmlns="urn:radargun:plugins:hazelcast3:3.0" file="dist-sync.xml" cache="dist_tx_shared"/>
+           </setup>
+       </config>
+
    </configurations>
 
    <scenario>

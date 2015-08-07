@@ -11,18 +11,19 @@
 
    <!-- List of configurations of the services -->
    <configurations>
-      <config name="JCache (Infinispan 7.1.x) - local">
-         <setup plugin="infinispan71">
-            <jcache xmlns="urn:radargun:plugins:jcache:3.0"
-                     cache-name="testCache" />
-         </setup>
-      </config>
-      <config name="JCache (Hazelcast 3.4.x) - local">
-         <setup plugin="hazelcast3">
-            <jcache xmlns="urn:radargun:plugins:jcache:3.0"
-                    cache-name="testCache" />
-         </setup>
-      </config>
+
+       <!-- Note that Coherence is not compiled by default -->
+       <config name="JCache Coherence 12.x - local">
+           <setup plugin="coherence12">
+               <coherence xmlns="urn:radargun:plugins:coherence12:3.0" cache-name="testCache"/>
+           </setup>
+       </config>
+       <config name="JCache (Hazelcast 3.4.x) - local">
+           <setup plugin="hazelcast3">
+               <hazelcast xmlns="urn:radargun:plugins:hazelcast3:3.0" cache-name="testCache"/>
+           </setup>
+       </config>
+
    </configurations>
 
    <!-- Sequence of stages executed on the cluster -->
