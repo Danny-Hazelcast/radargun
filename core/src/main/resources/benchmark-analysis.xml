@@ -7,7 +7,7 @@
 
    <!-- List of cluster configurations where the benchmark should run-->
    <clusters>
-      <cluster size="2" />
+      <cluster size="3" />
    </clusters>
 
    <!-- List of configurations of the services -->

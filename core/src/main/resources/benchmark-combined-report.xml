@@ -5,7 +5,7 @@
 
    <clusters>
       <cluster size="2"/>
-      <cluster size="4"/>
+      <cluster size="3"/>
    </clusters>
 
    <configurations>
