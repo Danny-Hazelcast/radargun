@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.0.xsd"
+<hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.5.xsd"
            xmlns="http://www.hazelcast.com/schema/config"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
@@ -20,9 +20,7 @@
     </network>
 
     <executor-service>
-        <core-pool-size>16</core-pool-size>
-        <max-pool-size>64</max-pool-size>
-        <keep-alive-seconds>60</keep-alive-seconds>
+        <pool-size>16</pool-size>
     </executor-service>
 
     <map name="default">
