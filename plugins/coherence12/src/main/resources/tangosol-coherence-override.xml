@@ -3,16 +3,33 @@
    xmlns="http://xmlns.oracle.com/coherence/coherence-operational-config"
    xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-operational-config coherence-operational-config.xsd" >
 
+   <cluster-config>
+         <unicast-listener>
+         <!--<socket-provider system-property="tangosol.coherence.socketprovider">tcp</socket-provider> -->
+         <well-known-addresses>
+            <socket-address id="1">
+               <address>10.0.0.51</address>
+               <port>8088</port>
+            </socket-address>
+          <socket-address id="2">
+               <address>10.0.0.50</address>
+               <port>8088</port>
+            </socket-address>
+         </well-known-addresses>
+        <port>8088</port>
+      </unicast-listener>
+   </cluster-config>
+
    <logging-config>
-      <destination system-property="tangosol.coherence.log">log4j</destination>
+      <destination system-property="tangosol.coherence.log">stdout</destination>
       <logger-name system-property="tangosol.coherence.log.logger"></logger-name>
-      <severity-level system-property="tangosol.coherence.log.level">5</severity-level>
+      <severity-level system-property="tangosol.coherence.log.level">9</severity-level>
       <message-format>{date} &lt;{level}&gt; ({thread},{member}) {text}</message-format>
       <character-limit system-property="tangosol.coherence.log.limit">1048576</character-limit>
    </logging-config>
-   
+
    <management-config>
-   	<managed-nodes>all</managed-nodes>
-   	<allow-remote-management>true</allow-remote-management>
+       <managed-nodes>all</managed-nodes>
+       <allow-remote-management>true</allow-remote-management>
    </management-config>
 </coherence>
