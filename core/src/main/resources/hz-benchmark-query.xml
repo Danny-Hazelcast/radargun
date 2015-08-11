@@ -1,0 +1,61 @@
+<benchmark xmlns="urn:radargun:benchmark:3.0">
+
+   <master bindAddress="${master.address:127.0.0.1}" port="${master.port:2103}" />
+
+   <clusters>
+      <scale from="2" to="3">
+         <cluster/>
+      </scale>
+   </clusters>
+
+   <configurations>
+
+       <config name="DistTxShared (Hazelcast 3.4.x)">
+           <setup plugin="hazelcast3">
+               <hazelcast xmlns="urn:radargun:plugins:hazelcast3:3.0" file="dist-sync.xml" cache="dist_tx_shared"/>
+           </setup>
+       </config>
+
+      <config name="Hazelcast Master">
+           <setup plugin="hazelcastMaster">
+               <hazelcast xmlns="urn:radargun:plugins:hazelcastMaster:3.0" file="dist-sync.xml" cache="dist_tx_shared"/>
+           </setup>
+       </config>
+
+
+   </configurations>
+
+   <scenario>
+      <service-start />
+
+      <!-- Loading the data -->
+      <load-data num-entries="5000" entry-size="0" seed="12345">
+         <value-generator>
+            <single-word file="${org.radargun.query.dictionary:/test-data/animals.txt}" />
+         </value-generator>
+      </load-data>
+
+      <!-- Logic does only queries - we don't have to specify any generator -->
+      <query test-name="querying"
+             duration="10s"
+             num-threads-per-node="10"
+             query-object-class="org.radargun.query.TextObject">
+         <conditions>
+            <!-- The conditions are ANDed -->
+            <any>
+               <eq path="text" value="Tiger" />
+               <like path="text" value="%Sea%" />
+            </any>
+            <not>
+               <eq path="text" value="Seahorse"/>
+            </not>
+         </conditions>
+      </query>
+   </scenario>
+
+   <reports>
+      <reporter type="html"/>
+      <reporter type="csv"/>
+   </reports>
+
+</benchmark>
