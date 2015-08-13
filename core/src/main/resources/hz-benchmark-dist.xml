@@ -13,11 +13,7 @@
    <!-- List of configurations of the services -->
    <configurations>
        <!-- Note that Coherence is not compiled by default -->
-       <config name="Coherence 12.x">
-           <setup plugin="coherence12">
-               <coherence xmlns="urn:radargun:plugins:coherence12:3.0" file="dist.xml"/>
-           </setup>
-       </config>
+
        <config name="Hazelcast 3.5">
            <setup plugin="hazelcast3">
                <hazelcast xmlns="urn:radargun:plugins:hazelcast3:3.0" file="dist-sync.xml"/>
@@ -28,6 +24,13 @@
                <hazelcast xmlns="urn:radargun:plugins:hazelcastMaster:3.0" file="dist-sync.xml"/>
            </setup>
        </config>
+
+       <config name="Coherence 12.x">
+           <setup plugin="coherence12">
+               <coherence xmlns="urn:radargun:plugins:coherence12:3.0" file="dist.xml"/>
+           </setup>
+       </config>
+
    </configurations>
 
    <!-- Sequence of stages executed on the cluster -->
