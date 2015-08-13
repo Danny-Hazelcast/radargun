@@ -63,7 +63,6 @@ public class ConfigSchemaGenerator extends SchemaGenerator implements ConfigSche
       addAttribute(masterComplex, ATTR_PORT, intType, null, false);
 
       Element clustersChoice = createChoice(benchmarkSequence, 0, 1);
-      createComplexElement(clustersChoice, ELEMENT_LOCAL, 0, 1);
       Element clustersComplex = createComplexElement(clustersChoice, ELEMENT_CLUSTERS, 0, 1);
       Element clusterChoice = createChoice(clustersComplex, 1, -1);
       Element baseClusterType = createComplexType(schema, TYPE_CLUSTER_BASE, null, true, false, null);
@@ -85,7 +84,10 @@ public class ConfigSchemaGenerator extends SchemaGenerator implements ConfigSche
       Element configurationsComplex = createComplexElement(benchmarkSequence, ELEMENT_CONFIGURATIONS, 1, 1);
       Element configComplex = createComplexElement(createSequence(configurationsComplex), ELEMENT_CONFIG, 1, -1);
       Element setupComplex = createComplexElement(createSequence(configComplex), ELEMENT_SETUP, 1, -1);
-      createAny(createSequence(setupComplex));
+      Element setupSequence = createSequence(setupComplex);
+      String vmArgsType = generateClass(VmArgs.class);
+      createReference(setupSequence, ELEMENT_VM_ARGS, vmArgsType, 0, 1);
+      createAny(setupSequence);
       addAttribute(configComplex, ATTR_NAME, true);
       addAttribute(setupComplex, ATTR_PLUGIN, true);
       addAttribute(setupComplex, ATTR_GROUP, false);

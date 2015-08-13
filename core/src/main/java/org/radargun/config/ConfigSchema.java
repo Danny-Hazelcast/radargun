@@ -27,7 +27,6 @@ interface ConfigSchema {
    String ELEMENT_DESTROY = "destroy";
    String ELEMENT_GROUP = "group";
    String ELEMENT_INIT = "init";
-   String ELEMENT_LOCAL = "local";
    String ELEMENT_MASTER = "master";
    String ELEMENT_REPEAT = "repeat";
    String ELEMENT_REPORT = "report";
@@ -36,4 +35,5 @@ interface ConfigSchema {
    String ELEMENT_SCALE = "scale";
    String ELEMENT_SCENARIO = "scenario";
    String ELEMENT_SETUP = "setup";
+   String ELEMENT_VM_ARGS = "vm-args";
 }

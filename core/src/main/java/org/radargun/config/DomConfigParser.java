@@ -139,14 +139,8 @@ public class DomConfigParser extends ConfigParser implements ConfigSchema {
    }
 
    private void parseClusters(MasterConfig masterConfig, Element clustersElement) {
-      if (ELEMENT_LOCAL.equals(clustersElement.getNodeName())) {
-         if (masterConfig.getPort() != 0 || masterConfig.getHost() != null) {
-            log.warn("Master element will be ignored for local configuration.");
-         }
-         // no clusters, leave empty
-         return;
-      } else if (!ELEMENT_CLUSTERS.equals(clustersElement.getNodeName())) {
-         throw unexpected(clustersElement.getNodeName(), new String[]{ELEMENT_LOCAL, ELEMENT_CLUSTERS});
+      if (!ELEMENT_CLUSTERS.equals(clustersElement.getNodeName())) {
+         throw unexpected(clustersElement.getNodeName(), new String[]{ELEMENT_CLUSTERS});
       }
       if (masterConfig.getPort() == 0 || masterConfig.getHost() == null) {
          throw new IllegalArgumentException("Master not configured for distributed scenario!");
@@ -221,26 +215,23 @@ public class DomConfigParser extends ConfigParser implements ConfigSchema {
             assertName(ELEMENT_SETUP, setupElement);
             String plugin = getAttribute(setupElement, ATTR_PLUGIN);
             String group = getAttribute(setupElement, ATTR_GROUP, Cluster.DEFAULT_GROUP);
-            Map<String, Definition> propertyDefinitions = null;
-            String service = null;
+            Map<String, Definition> propertyDefinitions = Collections.EMPTY_MAP;
+            Map<String, Definition> vmArgs = Collections.EMPTY_MAP;
+            String service = Configuration.DEFAULT_SERVICE;
             NodeList properties = setupElement.getChildNodes();
             for (int k = 0; k < properties.getLength(); ++k) {
                if (!(properties.item(k) instanceof Element)) continue;
                Element setupChildElement = (Element) properties.item(k);
-               if (setupChildElement.hasAttribute(ATTR_XMLNS)) {
+               if (ELEMENT_VM_ARGS.equals(setupChildElement.getNodeName())) {
+                  vmArgs = parseProperties(setupChildElement, true);
+               } else if (setupChildElement.hasAttribute(ATTR_XMLNS)) {
                   service = setupChildElement.getNodeName();
                   propertyDefinitions = parseProperties(setupChildElement, true);
                } else {
                   throw notExternal(setupChildElement);
                }
             }
-            if (service == null) {
-               service = Configuration.DEFAULT_SERVICE;
-            }
-            if (propertyDefinitions == null) {
-               propertyDefinitions = Collections.EMPTY_MAP;
-            }
-            config.addSetup(group, plugin, service, propertyDefinitions);
+            config.addSetup(group, plugin, service, propertyDefinitions, vmArgs);
          }
          masterConfig.addConfig(config);
       }
@@ -267,7 +258,7 @@ public class DomConfigParser extends ConfigParser implements ConfigSchema {
       for (int attrIndex = 0; attrIndex < attributes.getLength(); attrIndex++) {
          Attr attr = (Attr) attributes.item(attrIndex);
          if (ATTR_XMLNS.equals(attr.getName())) continue;
-         properties.put(attr.getName(), new SimpleDefinition(attr.getValue()));
+         properties.put(attr.getName(), new SimpleDefinition(attr.getValue(), SimpleDefinition.Source.ATTRIBUTE));
       }
       if (!subElements) {
          return properties;
@@ -296,13 +287,16 @@ public class DomConfigParser extends ConfigParser implements ConfigSchema {
       NamedNodeMap attributes = element.getAttributes();
       NodeList children = element.getChildNodes();
       if (attributes.getLength() == 0 && children.getLength() == 1 && children.item(0) instanceof Text) {
-         return new SimpleDefinition(((Text) children.item(0)).getWholeText());
+         return new SimpleDefinition(((Text) children.item(0)).getWholeText(), SimpleDefinition.Source.TEXT);
       }
       ComplexDefinition definition = new ComplexDefinition();
       for (int i = 0; i < attributes.getLength(); ++i) {
          Attr attr = (Attr) attributes.item(i);
-         if (ATTR_XMLNS.equals(attr.getName())) continue;
-         definition.add(attr.getName(), new SimpleDefinition(attr.getValue()));
+         if (ATTR_XMLNS.equals(attr.getName())) {
+            definition.setNamespace(attr.getValue());
+            continue;
+         }
+         definition.add(attr.getName(), new SimpleDefinition(attr.getValue(), SimpleDefinition.Source.ATTRIBUTE));
       }
       for (int i = 0; i < children.getLength(); ++i) {
          Node n = children.item(i);
@@ -311,7 +305,7 @@ public class DomConfigParser extends ConfigParser implements ConfigSchema {
          } else if (n instanceof Text) {
             String text = ((Text) n).getWholeText().trim();
             if (!text.isEmpty()) {
-               definition.add("", new SimpleDefinition(text));
+               definition.add("", new SimpleDefinition(text, SimpleDefinition.Source.TEXT));
             }
          } else if (n instanceof Comment) {
             continue;

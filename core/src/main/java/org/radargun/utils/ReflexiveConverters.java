@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,8 +43,15 @@ public class ReflexiveConverters {
       }
 
       protected <T> Base(Class<T> implementedClass) {
-         for (File file : Directories.LIB_DIR.listFiles(new Utils.JarFilenameFilter())) {
-            for (Class<? extends T> clazz : AnnotatedHelper.getClassesFromJar(file.getPath(), implementedClass, DefinitionElement.class)) {
+         addFromDir(Directories.LIB_DIR, implementedClass);
+         if (ArgsHolder.getCurrentPlugin() != null) {
+            addFromDir(Paths.get(Directories.PLUGINS_DIR.toString(), ArgsHolder.getCurrentPlugin(), "lib").toFile(), implementedClass);
+         }
+      }
+
+      private <T> void addFromDir(File dir, Class<T> implementedClass) {
+         for (File file : dir.listFiles(new Utils.JarFilenameFilter())) {
+            for (Class<? extends T> clazz : AnnotatedHelper.getClassesFromJar(file.getPath(), implementedClass, DefinitionElement.class, "org.radargun.")) {
                DefinitionElement de = clazz.getAnnotation(DefinitionElement.class);
                if (this.classes.containsKey(de.name())) {
                   throw new IllegalArgumentException("Trying to register " + clazz.getName() + " as '" + de.name()
@@ -87,7 +95,7 @@ public class ReflexiveConverters {
    /**
     * Creates single instance of provided classes.
     */
-   public static class ObjectConverter extends Base implements ComplexConverter<Object> {
+   public static class ObjectConverter extends Base implements DefinitionElementConverter<Object> {
       /**
        * Enumeration-based constructor.
        * @param classes That can be instantiated.
@@ -135,7 +143,7 @@ public class ReflexiveConverters {
    /**
     * Creates a list of instances of provided classes.
     */
-   public static class ListConverter extends Base implements ComplexConverter<List> {
+   public static class ListConverter extends Base implements DefinitionElementConverter<List> {
       /**
        * Enumeration-based constructor.
        * @param classes That can be instantiated.
@@ -231,7 +239,7 @@ public class ReflexiveConverters {
             Map<String, String> properties = Utils.parseParams(string.substring(index + 1));
             ComplexDefinition definition = new ComplexDefinition();
             for (Map.Entry<String, String> property : properties.entrySet()) {
-               definition.add(property.getKey(), new SimpleDefinition(property.getValue()));
+               definition.add(property.getKey(), new SimpleDefinition(property.getValue(), SimpleDefinition.Source.TEXT));
             }
             return instantiate(string.substring(0, index), definition);
          }
