@@ -3,7 +3,9 @@
    <master bindAddress="${master.address:127.0.0.1}" port="${master.port:2103}"/>
 
    <clusters>
-      <cluster size="4"/>
+       <scale from="2" to="4" inc="1">
+           <cluster />
+       </scale>
    </clusters>
 
    <configurations>
@@ -51,7 +53,29 @@
 
    <reports>
       <reporter type="csv" />
-      <reporter type="html" />
+
+       <reporter type="html">
+           <report>
+               <html xmlns="urn:radargun:reporters:reporter-default:3.0"
+                     target-dir="reports/html-default"/>
+           </report>
+           <report>
+               <html xmlns="urn:radargun:reporters:reporter-default:3.0"
+                     target-dir="reports/html-separate">
+                   <test-report separate-cluster-charts="true" />
+               </html>
+           </report>
+           <report>
+               <html xmlns="urn:radargun:reporters:reporter-default:3.0"
+                     target-dir="reports/html-combined">
+                   <!-- Notice the square brackets, you might create multiple combinations using
+                         [testA, testB], [testB, testC]
+                     -->
+                   <test-report combined-tests="[concurrent, colliding]"/>
+               </html>
+           </report>
+       </reporter>
+
    </reports>
 
 </benchmark>

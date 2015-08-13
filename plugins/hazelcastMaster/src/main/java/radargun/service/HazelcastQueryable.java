@@ -1,16 +1,5 @@
 package radargun.service;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
 import com.hazelcast.core.IMap;
 import com.hazelcast.query.PagingPredicate;
 import com.hazelcast.query.Predicate;
@@ -20,6 +9,12 @@ import org.radargun.logging.LogFactory;
 import org.radargun.traits.Queryable;
 import org.radargun.utils.OptimizedMap;
 import org.radargun.utils.Projections;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * @author Radim Vansa &lt;rvansa@redhat.com&gt;

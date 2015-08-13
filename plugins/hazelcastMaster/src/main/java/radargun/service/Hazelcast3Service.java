@@ -1,8 +1,5 @@
 package radargun.service;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.hazelcast.core.IMap;
 import com.hazelcast.core.MembershipListener;
 import org.radargun.Service;
@@ -11,6 +8,9 @@ import org.radargun.config.Property;
 import org.radargun.traits.ProvidesTrait;
 import org.radargun.traits.Transactional;
 import org.radargun.utils.ReflexiveConverters;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * An implementation of CacheWrapper that uses Hazelcast instance as an underlying implementation.
