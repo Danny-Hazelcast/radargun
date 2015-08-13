@@ -3,7 +3,7 @@
    <master bindAddress="${master.address:127.0.0.1}" port="${master.port:2103}" />
 
    <clusters>
-      <scale from="2" to="3">
+      <scale from="2" to="4">
          <cluster/>
       </scale>
    </clusters>

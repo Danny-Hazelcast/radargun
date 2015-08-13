@@ -4,18 +4,11 @@
    xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-operational-config coherence-operational-config.xsd" >
 
    <cluster-config>
-         <unicast-listener>
-         <!--<socket-provider system-property="tangosol.coherence.socketprovider">tcp</socket-provider> -->
-         <well-known-addresses>
-            <socket-address id="1">
-               <address>10.0.0.51</address>
-               <port>8088</port>
-            </socket-address>
-          <socket-address id="2">
-               <address>10.0.0.50</address>
-               <port>8088</port>
-            </socket-address>
-         </well-known-addresses>
+      <unicast-listener>
+        <!--<socket-provider system-property="tangosol.coherence.socketprovider">tcp</socket-provider> -->
+        <well-known-addresses>
+            <!--SOCKET_ADDRESS-->  
+        </well-known-addresses>
         <port>8088</port>
       </unicast-listener>
    </cluster-config>

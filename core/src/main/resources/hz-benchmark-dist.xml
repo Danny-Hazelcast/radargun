@@ -7,7 +7,7 @@
    <!-- List of cluster configurations where the benchmark should run-->
    <clusters>
       <!-- Equivalent to <cluster size="2" /><cluster size="3" /> -->
-      <scale from="2" to="3" inc="1">
+      <scale from="2" to="4" inc="1">
          <!-- No groups defined within the cluster -->
          <cluster />
       </scale>
