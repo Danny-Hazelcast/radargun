@@ -68,15 +68,6 @@
                    <test-report separate-cluster-charts="true" />
                </html>
            </report>
-           <report>
-               <html xmlns="urn:radargun:reporters:reporter-default:3.0"
-                     target-dir="reports/html-combined">
-                   <!-- Notice the square brackets, you might create multiple combinations using
-                         [testA, testB], [testB, testC]
-                     -->
-                   <test-report combined-tests="[concurrent, colliding]"/>
-               </html>
-           </report>
        </reporter>
 
    </reports>

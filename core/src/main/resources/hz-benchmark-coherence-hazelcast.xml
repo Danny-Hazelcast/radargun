@@ -50,7 +50,8 @@
    <cleanup check-threads="false" />
 
    <reports>
-      <reporter type="csv" />
+       <reporter type="csv" />
+       <reporter type="html" />
 
        <reporter type="html">
            <report>
@@ -61,15 +62,6 @@
                <html xmlns="urn:radargun:reporters:reporter-default:3.0"
                      target-dir="reports/html-separate">
                    <test-report separate-cluster-charts="true" />
-               </html>
-           </report>
-           <report>
-               <html xmlns="urn:radargun:reporters:reporter-default:3.0"
-                     target-dir="reports/html-combined">
-                   <!-- Notice the square brackets, you might create multiple combinations using
-                         [testA, testB], [testB, testC]
-                     -->
-                   <test-report combined-tests="[concurrent, colliding]"/>
                </html>
            </report>
        </reporter>

@@ -53,7 +53,7 @@
       <load-data num-entries="10000"/>
 
       <!-- 10, 20 and 30 threads will execute random request for 1 minute against the default cache ('testCache') -->
-      <repeat from="20" to="60" inc="20">
+      <repeat from="10" to="30" inc="10">
          <basic-operations-test test-name="stress-test" amend-test="true" duration="1m" num-threads-per-node="${repeat.counter}">
             <key-selector>
                <concurrent-keys total-entries="10000"/>
@@ -91,15 +91,6 @@
                <html xmlns="urn:radargun:reporters:reporter-default:3.0"
                      target-dir="reports/html-separate">
                    <test-report separate-cluster-charts="true" />
-               </html>
-           </report>
-           <report>
-               <html xmlns="urn:radargun:reporters:reporter-default:3.0"
-                     target-dir="reports/html-combined">
-                   <!-- Notice the square brackets, you might create multiple combinations using
-                         [testA, testB], [testB, testC]
-                     -->
-                   <test-report combined-tests="[concurrent, colliding]"/>
                </html>
            </report>
        </reporter>
