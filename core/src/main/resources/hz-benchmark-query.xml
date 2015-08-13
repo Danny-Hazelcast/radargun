@@ -10,13 +10,13 @@
 
    <configurations>
 
-       <config name="DistTxShared (Hazelcast 3.4.x)">
+       <config name="DistTxShared ${hzOlderVersion}">
            <setup plugin="hazelcast3">
                <hazelcast xmlns="urn:radargun:plugins:hazelcast3:3.0" file="dist-sync.xml" cache="dist_tx_shared"/>
            </setup>
        </config>
 
-      <config name="Hazelcast Master">
+      <config name="Hazelcast ${hzHatMasterVersion}">
            <setup plugin="hazelcastMaster">
                <hazelcast xmlns="urn:radargun:plugins:hazelcastMaster:3.0" file="dist-sync.xml" cache="dist_tx_shared"/>
            </setup>
@@ -60,11 +60,11 @@
        <reporter type="html">
            <report>
                <html xmlns="urn:radargun:reporters:reporter-default:3.0"
-                     target-dir="reports/html-default"/>
+                     target-dir="results/html-default"/>
            </report>
            <report>
                <html xmlns="urn:radargun:reporters:reporter-default:3.0"
-                     target-dir="reports/html-separate">
+                     target-dir="results/html-separate">
                    <test-report separate-cluster-charts="true" />
                </html>
            </report>

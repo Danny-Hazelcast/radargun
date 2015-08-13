@@ -1,11 +1,11 @@
-<!-- RadarGun 3.0 benchmark -->
+<!-- This test shows example comparison between three products -->
 <benchmark xmlns="urn:radargun:benchmark:3.0">
 
    <!-- Specifies where should the master open socket  -->
    <master bindAddress="${master.address:127.0.0.1}" port="${master.port:2103}"/>
 
    <clusters>
-      <scale from="2" to="12" inc="1">
+      <scale from="2" to="12" inc="2">
          <cluster />
       </scale>
    </clusters>
@@ -13,24 +13,21 @@
    <!-- List of configurations of the services -->
    <configurations>
        <!-- Note that Coherence is not compiled by default -->
-
-       <config name="Hazelcast 3.5">
-           <setup plugin="hazelcast3">
-               <hazelcast xmlns="urn:radargun:plugins:hazelcast3:3.0" file="dist-sync.xml"/>
-           </setup>
-       </config>
-       <config name="Hazelcast Master">
-           <setup plugin="hazelcastMaster">
-               <hazelcast xmlns="urn:radargun:plugins:hazelcastMaster:3.0" file="dist-sync.xml"/>
-           </setup>
-       </config>
-
        <config name="Coherence 12.x">
            <setup plugin="coherence12">
                <coherence xmlns="urn:radargun:plugins:coherence12:3.0" file="dist.xml"/>
            </setup>
        </config>
-
+       <config name="Hazelcast ${hzOlderVersion}">
+           <setup plugin="hazelcast3">
+               <hazelcast xmlns="urn:radargun:plugins:hazelcast3:3.0" file="dist-sync.xml"/>
+           </setup>
+       </config>
+       <config name="Hazelcast ${hzHatMasterVersion}">
+           <setup plugin="hazelcastMaster">
+               <hazelcast xmlns="urn:radargun:plugins:hazelcastMaster:3.0" file="dist-sync.xml"/>
+           </setup>
+       </config>
    </configurations>
 
    <!-- Sequence of stages executed on the cluster -->
@@ -55,9 +52,8 @@
       <!-- Again, preload the cache with data -->
       <load-data num-entries="10000"/>
 
-      <!-- 10, 20 and 30 threads will execute random request for 1 minute against the default cache ('testCache') -->
-      <repeat from="10" to="30" inc="10">
-         <basic-operations-test test-name="stress-test" amend-test="true" duration="1m" num-threads-per-node="${repeat.counter}">
+
+      <basic-operations-test test-name="stress-test" duration="1m" num-threads-per-node="64">
             <key-selector>
                <concurrent-keys total-entries="10000"/>
             </key-selector>
@@ -69,30 +65,29 @@
                   </operation-stats>
                </default>
             </statistics>
-         </basic-operations-test>
-      </repeat>
+      </basic-operations-test>
 
       <!-- Stop JVM monitoring -->
       <jvm-monitor-stop />
    </scenario>
+   <!-- Ignore leaked threads as Coherence leaks quite often -->
+   <cleanup check-threads="false" />
 
    <!-- How the statistics are reported -->
    <reports>
       <!-- Produce CSV statistics report -->
-      <reporter type="csv" />
+       <reporter type="csv" />
       <!-- Produce HTML statistics report -->
-      <reporter type="html" />
-      <!-- Store Java-serialized version of the results that can be used to re-run the report -->
-      <reporter type="serialized" />
+       <reporter type="html" />
 
        <reporter type="html">
            <report>
                <html xmlns="urn:radargun:reporters:reporter-default:3.0"
-                     target-dir="reports/html-default"/>
+                     target-dir="results/html-default"/>
            </report>
            <report>
                <html xmlns="urn:radargun:reporters:reporter-default:3.0"
-                     target-dir="reports/html-separate">
+                     target-dir="results/html-separate">
                    <test-report separate-cluster-charts="true" />
                </html>
            </report>
