@@ -2,11 +2,11 @@
 
    <master bindAddress="${master.address:127.0.0.1}" port="${master.port:2103}" />
 
-   <clusters>
-      <scale from="2" to="4">
-         <cluster/>
-      </scale>
-   </clusters>
+    <clusters>
+        <scale from="${clusterMin}" to="${clusterMax}" inc="${clusterInc}">
+            <cluster />
+        </scale>
+    </clusters>
 
    <configurations>
 
