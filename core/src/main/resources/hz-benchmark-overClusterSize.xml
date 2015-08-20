@@ -12,6 +12,13 @@
 
    <!-- List of configurations of the services -->
    <configurations>
+
+      <config name="Infinispan 7.2">
+         <setup plugin="infinispan72">
+            <embedded xmlns="urn:radargun:plugins:infinispan72:3.0" file="dist-sync.xml"/>
+         </setup>
+      </config>
+
        <!-- Note that Coherence is not compiled by default -->
        <config name="Coherence 12.x">
            <setup plugin="coherence12">
@@ -28,6 +35,7 @@
                <hazelcast xmlns="urn:radargun:plugins:hazelcastMaster:3.0" file="dist-sync.xml"/>
            </setup>
        </config>
+
    </configurations>
 
    <!-- Sequence of stages executed on the cluster -->
