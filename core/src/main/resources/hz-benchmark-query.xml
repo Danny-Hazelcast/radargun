@@ -10,6 +10,12 @@
 
    <configurations>
 
+       <config name="DistTxShared Coherence 12.x">
+           <setup plugin="coherence12">
+               <coherence xmlns="urn:radargun:plugins:coherence12:3.0" file="dist-tx.xml" cache="dist_tx_shared"/>
+           </setup>
+       </config>
+
        <config name="DistTxShared ${hzOlderVersion}">
            <setup plugin="hazelcast3">
                <hazelcast xmlns="urn:radargun:plugins:hazelcast3:3.0" file="dist-sync.xml" cache="dist_tx_shared"/>
