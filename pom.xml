@@ -235,21 +235,6 @@
          </properties>
       </profile>
       <profile>
-         <id>jdk18</id>
-         <activation>
-            <jdk>1.8</jdk>
-            <property>
-               <name>!no-jdk18</name>
-            </property>
-         </activation>
-         <modules>
-            <module>plugins/infinispan80</module>
-         </modules>
-         <properties>
-            <plugins.jdk18>infinispan80</plugins.jdk18>
-         </properties>
-      </profile>
-      <profile>
          <id>coherence</id>
          <activation>
             <property>
@@ -323,6 +308,20 @@
             <module>plugins/jcache</module>
          </modules>
       </profile>
+       <profile>
+           <id>gemfire</id>
+           <activation>
+               <property>
+                   <name>!no-gemfire</name>
+               </property>
+           </activation>
+           <modules>
+               <module>plugins/gemfire82</module>
+           </modules>
+           <properties>
+               <plugins.gemfire>gemfire82</plugins.gemfire>
+           </properties>
+       </profile>
    </profiles>
 
    <build>
@@ -478,7 +477,7 @@
                         </path>
 
                         <echo message="Packaging plugins: " />
-                        <ac:for list="${plugins.chm},${plugins.ehcache},${plugins.hazelcast},${plugins.jbosscache},${plugins.jgroups},${plugins.infinispan},${plugins.jdk18},${plugins.jdg},${plugins.coherence},${plugins.process},${plugins.spymemcached}" param="plugin" xmlns:ac="antlib:net.sf.antcontrib">
+                        <ac:for list="${plugins.chm},${plugins.ehcache},${plugins.hazelcast},${plugins.jbosscache},${plugins.jgroups},${plugins.infinispan},${plugins.jdk18},${plugins.jdg},${plugins.coherence},${plugins.process},${plugins.spymemcached},${plugins.gemfire}" param="plugin" xmlns:ac="antlib:net.sf.antcontrib">
                            <sequential>
                               <echo message="Packaging plugin @{plugin}..." />
                               <ac:if>
